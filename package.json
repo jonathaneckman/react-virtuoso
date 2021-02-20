@@ -79,6 +79,7 @@
     "jsdom": "^16.4.0",
     "lodash": "^4.17.20",
     "microbundle": "^0.13.0",
+    "moment": "^2.29.1",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
     "playwright": "^1.8.0",
