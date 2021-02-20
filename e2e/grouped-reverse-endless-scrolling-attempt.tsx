@@ -23,7 +23,7 @@ export default function App() {
 
   const components: Partial<Components> = {
     Footer: () => <div>Footer</div>,
-  
+
     // eslint-disable-next-line @typescript-eslint/ban-types
     List: React.forwardRef(({ style, children }, listRef) => {
       return (
@@ -32,7 +32,7 @@ export default function App() {
         </div>
       )
     }),
-  
+
     Item: ({ children, ...props }) => {
       return (
         <div {...props} style={{ margin: 0 }}>
@@ -40,7 +40,7 @@ export default function App() {
         </div>
       )
     },
-  
+
     Group: ({ children, ...props }) => {
       return (
         <div {...props} style={{ backgroundColor: '#000000', color: '#ffffff' }}>
@@ -50,8 +50,8 @@ export default function App() {
     },
 
     Header: () => {
-      return (<button onClick={loadMorePastEvents}>Load more...</button>)
-    }
+      return <button onClick={loadMorePastEvents}>Load more...</button>
+    },
   }
 
   const loadMorePastEvents = () => {
@@ -61,12 +61,7 @@ export default function App() {
     const updatedDateGroups = [...dateGroups]
     const updatedDateGroupCounts = [...dateGroupCounts]
 
-    const pastEvents = loadPastEvents(
-      moment(events[0].date).toISOString(),
-      updatedEvents,
-      updatedDateGroups,
-      updatedDateGroupCounts
-    )
+    const pastEvents = loadPastEvents(moment(events[0].date).toISOString(), updatedEvents, updatedDateGroups, updatedDateGroupCounts)
 
     setTimeout(() => {
       setListKey(uniqueId())
@@ -275,15 +270,15 @@ export default function App() {
 
   //   return false
   // }, [
-  //   firstItemIndex, 
-  //   events, 
+  //   firstItemIndex,
+  //   events,
   //   setEvents,
   //   dateGroups,
   //   setDateGroups,
   //   dateGroupCounts,
   //   setDateGroupCounts,
   // ])
-  
+
   return (
     <GroupedVirtuoso
       // key={listKey}
@@ -303,7 +298,10 @@ export default function App() {
       itemContent={(eventIndex: number, groupIndex: number, data: EventRow) => {
         return (
           <div>
-            <div>{eventIndex}{data.title}</div>
+            <div>
+              {eventIndex}
+              {data.title}
+            </div>
           </div>
         )
       }}

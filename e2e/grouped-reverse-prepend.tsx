@@ -3,7 +3,6 @@ import { Components, GroupedVirtuoso } from '../src'
 import { useState, useEffect, useCallback } from 'react'
 import moment from 'moment'
 
-
 const Style = { height: '350px', width: '300px' }
 
 type EventRow = {
@@ -14,15 +13,15 @@ type EventRow = {
 export default function App() {
   const THIS_MOMENT = moment()
   const PAGE_SIZE = 10
-  const [listKey, setListKey] = useState(moment().toISOString());
-  const [initialIndex, setInitialIndex] = useState(PAGE_SIZE);
+  const [listKey, setListKey] = useState(moment().toISOString())
+  const [initialIndex, setInitialIndex] = useState(PAGE_SIZE)
   const [events, setEvents] = useState<EventRow[]>([])
   const [dateGroups, setDateGroups] = useState<string[]>([THIS_MOMENT.clone().startOf('day').toISOString()])
   const [dateGroupCounts, setDateGroupCounts] = useState<number[]>([0])
 
   const components: Partial<Components> = {
     Footer: () => <div>Footer</div>,
-  
+
     // eslint-disable-next-line @typescript-eslint/ban-types
     List: React.forwardRef(({ style, children }, listRef) => {
       return (
@@ -31,7 +30,7 @@ export default function App() {
         </div>
       )
     }),
-  
+
     Item: ({ children, ...props }) => {
       return (
         <div {...props} style={{ margin: 0 }}>
@@ -39,7 +38,7 @@ export default function App() {
         </div>
       )
     },
-  
+
     Group: ({ children, ...props }) => {
       return (
         <div {...props} style={{ backgroundColor: '#000000', color: '#ffffff' }}>
@@ -50,9 +49,11 @@ export default function App() {
 
     Header: ({ ...props }) => {
       return (
-        <button {...props} onClick={prependItems}>Load more...</button>
+        <button {...props} onClick={prependItems}>
+          Load more...
+        </button>
       )
-    }
+    },
   }
 
   const getEvents = (startDateString: string, direction: 'before' | 'after') => {
@@ -139,7 +140,6 @@ export default function App() {
     let lastGroup = dateGroups[0]
     const pastEvents = getEvents(startDate, 'before')
 
-
     console.log('LAST GROUP')
     console.log(lastGroup)
 
@@ -149,7 +149,9 @@ export default function App() {
       // We're about to skip a day. Add an empty group.
       while (eventsGroup < moment(lastGroup).subtract(1, 'd').startOf('day').toISOString()) {
         const emptyGroup = moment(lastGroup).subtract(1, 'd').startOf('day').toISOString()
-        console.log(`Adding empty group '${emptyGroup}'... ${eventsGroup} < ${moment(lastGroup).subtract(1, 'd').startOf('day').toISOString()}`)
+        console.log(
+          `Adding empty group '${emptyGroup}'... ${eventsGroup} < ${moment(lastGroup).subtract(1, 'd').startOf('day').toISOString()}`
+        )
 
         updatedDateGroups.unshift(emptyGroup)
         updatedDateGroupCounts.unshift(1)
@@ -237,9 +239,9 @@ export default function App() {
   }, [events, dateGroups, dateGroupCounts, setEvents, setDateGroups, setDateGroupCounts])
 
   const prependItems = useCallback(() => {
-    console.log('prependItems()');
+    console.log('prependItems()')
 
-    const topItem = events[0];
+    const topItem = events[0]
     const updatedEvents = [...events]
     const updatedDateGroups = [...dateGroups]
     const updatedDateGroupCounts = [...dateGroupCounts]
@@ -253,17 +255,17 @@ export default function App() {
       updatedDateGroupCounts
     )
 
-    let firstIndex = updatedEvents.findIndex((updatedEvent) => {
-      return updatedEvent.date == topItem.date;
+    const firstIndex = updatedEvents.findIndex((updatedEvent) => {
+      return updatedEvent.date == topItem.date
     })
-    
+
     // console.log(pastEventData.events)
 
     setEvents(pastEventData.events)
     setDateGroups(pastEventData.dateGroups)
     setDateGroupCounts(pastEventData.dateGroupCounts)
-    setInitialIndex(firstIndex);
-    setListKey(moment().toISOString());
+    setInitialIndex(firstIndex)
+    setListKey(moment().toISOString())
 
     setTimeout(() => {
       // Set all new arrays
@@ -272,7 +274,7 @@ export default function App() {
 
     return false
   }, [events, setEvents])
-  
+
   return (
     <GroupedVirtuoso
       key={listKey}
@@ -289,7 +291,9 @@ export default function App() {
       itemContent={(index) => {
         return (
           <div>
-            <div>{index} {events[index].title}</div>
+            <div>
+              {index} {events[index].title}
+            </div>
           </div>
         )
       }}
